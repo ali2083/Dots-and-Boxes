@@ -31,10 +31,8 @@ player::player(/* args */)
     name = "";
 }
 
-
-
-
 void menu ();
 void error (string err_text);
-void setBoardSiza (int width, int height);
+void setBoardSize (int width, int height);
 void playerDefine ();
+void scoreBoard ();
