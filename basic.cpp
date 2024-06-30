@@ -2,8 +2,7 @@
 
 void menu ()
 {
-    cout << "--welcome--" << endl;
-    //this is commit be mola
+    
 }
 
 void error (string err_text)
