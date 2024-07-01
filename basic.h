@@ -14,6 +14,13 @@ struct board
     int height = 4;
 };
 
+struct line
+{
+    int x;
+    int y;
+};
+
+
 enum Color
 {
     blue = 1,
