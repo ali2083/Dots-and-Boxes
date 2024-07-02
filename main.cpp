@@ -19,17 +19,15 @@ int main ()
     testi.set_number(1);
     testi.set_score(5);
 
-    board real;
-    real.height = b.height + b.height - 1;
-    real.width = b.width + b.width - 1;
+    
     
 
     line s;
-    s.x = 2;
-    s.y = 5;
+    s.x = 1;
+    s.y = 0;
 
-    lines.insert(lines.begin() + 17,s);
-    prtGameBoard(testi, lines, real);
+    lines.insert(lines.begin() + 3,s);
+    prtGameBoard(testi, lines, b);
 
     for (int i = 0; i < lines.size(); i++) 
         cout << lines[i].x << " ";
