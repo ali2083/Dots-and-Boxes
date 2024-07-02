@@ -21,6 +21,7 @@ void menu()
 
 void error (string err_text)
 {
+    cout << err_text << endl;
 }
 
 void setBoardSize(int width, int height)
