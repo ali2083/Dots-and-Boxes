@@ -8,6 +8,8 @@
 
 using namespace std;
 
-void prtGameBoard (Player &player, vector<line> &lines, board real);
+void prtGameBoard (Player &player, vector<line> &lines, vector<int> points, board b);
+void playGame (Player players[], int count, board b);
+bool isLineValid (line);
 
 #endif

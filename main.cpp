@@ -6,31 +6,34 @@
 
 int main ()
 {
-    static board b;
-    static int turn = 1;
+    //Initialize
     Player players[8];
+    int count = 8;
+    static board b;
 
-    int boardSize = b.height * (b.width - 1) + b.width * (b.height - 1);
-    vector<line> lines(boardSize); //Sort by rows!
-
-    Player testi;
-    testi.set_color(red);
-    testi.set_name("mamad");
-    testi.set_number(1);
-    testi.set_score(5);
-
-    
-    
-
-    line s;
-    s.x = 1;
-    s.y = 0;
-
-    lines.insert(lines.begin() + 3,s);
-    prtGameBoard(testi, lines, b);
-
-    for (int i = 0; i < lines.size(); i++) 
-        cout << lines[i].x << " ";
-    cin.get();
+    //code
+    menu();
+    char input;
+    while (true)
+    {
+        cin.get(input);
+        if (input == '1' || input == '2' || input == '3' || input == '4') break;
+        else error("Incorrect input \nPlease enter a valid number between 1 and 4");
+    }
+    switch (input)
+    {
+    case '1':
+        playGame(players, count, b);
+        break;
+    case '2':
+        
+        break;
+    case '3':
+        
+        break;
+    case '4':
+        
+        break;
+    }
     return 0;
 }

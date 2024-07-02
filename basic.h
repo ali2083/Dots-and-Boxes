@@ -20,7 +20,6 @@ struct line
     int y;
 };
 
-
 enum Color
 {
     blue = 1,
@@ -66,6 +65,7 @@ public:
 void changeTerminalColor(Color color);
 void menu ();
 void error (string err_text);
+bool checkInputs();
 void setBoardSize (int width, int height);
 // board getBoardSize (); maybe not useful
 void playerDefine ();

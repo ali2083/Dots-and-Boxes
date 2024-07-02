@@ -1,6 +1,6 @@
 #include "game.h"
 
-void prtGameBoard(Player &player, vector<line> &lines, board b)
+void prtGameBoard(Player &player, vector<line> &lines, vector<int> points, board b)
 {
     //index
     board real;
@@ -51,6 +51,7 @@ void prtGameBoard(Player &player, vector<line> &lines, board b)
             {
                 if (k == 1 && 0 < i) cout << i << " ";
                 else cout << "  ";
+
                 for (int j = 0; j <= real.width; j++)
                 {   
                     // board titles
@@ -68,11 +69,19 @@ void prtGameBoard(Player &player, vector<line> &lines, board b)
                     //draw points
                     if (j % 2 != 0)
                     {
-                        cout << "   ";
+                        int point = points[(i - 1) * (b.width - 1) + (j / 2) + 1];
+                        if (point == 0)
+                        {
+                            cout << "   ";
+                        }
+                        else
+                        {
+                            cout << " " << point << " ";
+                        }
                         continue;
                     }
 
-                    //vertical lines drawing 
+                    //HORIZONTAL lines drawing 
                     if (lines[index - 1].x == i && lines[index - 1].y == j)
                     {
                         cout << "|";
@@ -87,6 +96,32 @@ void prtGameBoard(Player &player, vector<line> &lines, board b)
             }
         }
     }
-    
-    
+}
+
+void playGame(Player players[], int count, board b)
+{
+    cout << "Press any key to start...";
+    cin.get();
+
+    int turn = 1;
+    int boardSize = b.width * (b.height - 1) + b.height * (b.width - 1);
+    int boardBoxes = (b.height - 1) * (b.width - 1);
+    vector<line> lines(boardSize); 
+    vector<int> points(boardBoxes);
+    for (int i = 0; i < boardSize; i++)
+    {
+        prtGameBoard(players[turn], lines, points, b);
+        cout << "inter line location: ";
+        line input;
+        cin >> input.x >> input.y;
+
+        //don't forget check the inputs in next commit
+        int where = ((input.x * b.width) - ((input.x + 1) / 2)) + (input.y / 2);
+        lines.insert(lines.begin() + where, input);
+        prtGameBoard(players[turn], lines, points, b);
+
+
+        if (turn >= count - 1) turn = 1;
+        else turn++;
+    }
 }
