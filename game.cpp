@@ -3,3 +3,7 @@
 void prtGameBoard()
 {
 }
+
+void addLine()
+{
+}
