@@ -17,10 +17,9 @@ void changeTerminalColor(Color color)
 void menu()
 {
   cout << "Play\n";
-  cout << "Options\n";
-  cout << "Settin\n";
+  cout << "Board Size\n";
+  cout << "players\n";
   cout << "Ranking\n";
-  cout << "Shop\n";
   cout << "Exit\n";
 }
 

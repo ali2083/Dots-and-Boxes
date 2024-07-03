@@ -2,10 +2,7 @@
 
 void prtGameBoard(Player &player, vector<line> &lines, board b)
 {
-}
 
-void addLine()
-{
     //index
     board real;
     real.height = b.height + b.height - 1;
