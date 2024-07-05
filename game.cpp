@@ -1,6 +1,6 @@
 #include "game.h"
 
-void prtGameBoard(Player &player, vector<line> &lines, board b)
+void prtGameBoard(Player &player, vector<line> &lines, vector<int> &boxes, board b)
 {
 
     //index
@@ -36,7 +36,9 @@ void prtGameBoard(Player &player, vector<line> &lines, board b)
                 //vertical lines drawing 
                 if (lines[index - 1].x == i && lines[index - 1].y == j)
                 {
+                    changeTerminalColor(lines[index - 1].color);
                     cout << "---";
+                    changeTerminalColor(white);
                 }
                 else
                 {
@@ -66,32 +68,34 @@ void prtGameBoard(Player &player, vector<line> &lines, board b)
                     // lines number difination
                     int index = ((i * b.width) - ((i + 1) / 2)) + (j / 2) + 1;
                     
-
-                    //draw points ==> faild 
-                    /*
+                    //draw points ==> need that
                     if (j % 2 != 0)
                     {
-                        int point = points[(i - 1) * (b.width - 1) + (j / 2)];
-                        if (point == 0)
+                        int point = (i / 2) * (b.width - 1) + (j / 2); // +1 is box number -1 for vector index
+                        if (boxes[point] == 0)
                         {
                             cout << "   ";
                         }
                         else
                         {
-                            cout << " " << point << " ";
+                            if (k == 1)
+                            {
+                                cout << " " << boxes[point] << " ";
+                            }
+                            else
+                            {
+                                cout << "   ";
+                            }
                         }
                         continue;
                     }
-                    */
-                   if (j % 2 != 0)
-                    {
-                        cout << "  ";
-                    }
-
+                    
                     //HORIZONTAL lines drawing 
-                    if (lines[index - 1].x == i && lines[index - 1].y == j)
+                    else if (lines[index - 1].x == i && lines[index - 1].y == j)
                     {
+                        changeTerminalColor(lines[index - 1].color);
                         cout << "|";
+                        changeTerminalColor(white);
                     }
                     else
                     {
@@ -107,30 +111,47 @@ void prtGameBoard(Player &player, vector<line> &lines, board b)
 
 void playGame(Player players[], int count, board b)
 {
-    cout << "Press any key to start..." << endl;
-    cin.get();
-
     int turn = 0;
     int boardSize = b.width * (b.height - 1) + b.height * (b.width - 1);
     int boardBoxes = (b.height - 1) * (b.width - 1);
     vector<line> lines(boardSize); 
-    vector<int> points(boardBoxes);
+    vector<int> boxes(boardBoxes);
+    // Initialize boxes vector
+
 
     for (int i = 0; i < boardSize; i++)
     {
-        prtGameBoard(players[turn], lines, b);
+        prtGameBoard(players[turn], lines, boxes, b);
         cout << "inter line location: ";
-        line input = inputErrorHandle(b);
 
-        //don't forget check the inputs in next commit
-        int where = ((input.x * b.width) - ((input.x + 1) / 2)) + (input.y / 2);
+        int where = 0;
+        line input;
+        while (true)
+        {
+            input = inputErrorHandle(b);
+            where = ((input.x * b.width) - ((input.x + 1) / 2)) + (input.y / 2);
+            if (lines[where].x == 0 && lines[where].y == 0)
+            {
+                break;
+            }
+            else 
+            {
+                error("This line has already been drawn");
+                continue;
+            }
+            
+        }
+
+        input.color = players[turn].get_color();
         lines.insert(lines.begin() + where, input);
         lines.erase(lines.begin() + where + 1);
         system("CLS");
 
-
-        if (isScore(lines, where, b))
+        int box = Score(lines, where, b);
+        // cout << "box:" << box << endl; for debug comment
+        if (box != 0)
         {
+            boxes[box - 1] = turn;
             players[turn].set_score(players[turn].get_score() + 1);
         }
         else
@@ -141,22 +162,22 @@ void playGame(Player players[], int count, board b)
     }
 }
 
-bool isScore(vector<line> &lines, int where, board b)
+int Score(vector<line> &lines, int where, board b)
 {
     if (lines[where].x % 2 != 0)
     {
         if (isValidLine(lines[where - 1]) && lines[where - 1].x == lines[where].x)
         {
-            if (isValidLine(lines[where - b.width]) && isValidLine(lines[where + b.height - 1]))
+            if (isValidLine(lines[where - b.width]) && isValidLine(lines[where + b.width - 1]))
             {
-                return true;
+                return (lines[where].x / 2) * (b.width - 1) + (lines[where].y / 2);
             }
         }
         if (isValidLine(lines[where + 1]) && lines[where + 1].x == lines[where].x)
         {
-            if (isValidLine(lines[where - b.width + 1]) && isValidLine(lines[where - b.height]))
+            if (isValidLine(lines[where - b.width + 1]) && isValidLine(lines[where + b.width]))
             {
-                return true;
+                return (lines[where].x / 2) * (b.width - 1) + (lines[where].y / 2) + 1;
             }
         }
     }
@@ -164,20 +185,20 @@ bool isScore(vector<line> &lines, int where, board b)
     {
         if (isValidLine(lines[where - (2 * b.width) + 1]) && lines[where - (2 * b.width) + 1].y == lines[where].y)
         {
-            if (isValidLine(lines[where - b.width]) && isValidLine(lines[where - b.height + 1]))
+            if (isValidLine(lines[where - b.width]) && isValidLine(lines[where - b.width + 1]))
             {
-                return true;
+                return ((lines[where].x / 2) - 1) * (b.width - 1) + ((lines[where].y + 1) / 2);
             }
         }
         if (isValidLine(lines[where + (2 * b.width) - 1]) && lines[where + (2 * b.width) - 1].y == lines[where].y)
         {
-            if (isValidLine(lines[where + b.width - 1]) && isValidLine(lines[where + b.height]))
+            if (isValidLine(lines[where + b.width - 1]) && isValidLine(lines[where + b.width]))
             {
-                return true;
+                return (lines[where].x / 2) * (b.width - 1) + ((lines[where].y + 1) / 2);
             }
         }
     }
-    return false;
+    return 0;
 }
 
 bool isValidLine(line input)
@@ -191,6 +212,7 @@ bool isValidLine(line input)
 line inputErrorHandle(board b)
 {
     line input;
+    input.color = white;
     while (true)
     {
         try
@@ -202,12 +224,12 @@ line inputErrorHandle(board b)
             error("Input error");
             continue;
         }
-        if ((input.x < 0 || input.y < 0) || (input.x > (b.width + b.width - 1) || input.y > (b.height + b.height - 1)))
+        if ((input.x < 0 || input.y < 0) || (input.x > (b.height + b.height - 1) || input.y > (b.width + b.width - 1)))
         {
             error("Invalid input");
             continue;
         }
-        if ((input.x % 2 == 0 && input.y % 2 == 0) || (input.x % 2 != 0 && input.y % 2 != 0))
+        if (!isValidLine(input))
         {
             error("Invalid line coordinates");
             continue;

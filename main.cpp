@@ -10,6 +10,8 @@ int main ()
     Player players[8];
     int count = 8;
     static board b;
+    players[1].set_color(red);
+    players[1].set_name("---amghezi");
 
     //code
     menu();

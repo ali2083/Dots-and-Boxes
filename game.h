@@ -8,9 +8,9 @@
 
 using namespace std;
 
-void prtGameBoard (Player &player, vector<line> &lines, board b);
+void prtGameBoard (Player &player, vector<line> &lines, vector<int> &boxes, board b);
 void playGame (Player players[], int count, board b);
-bool isScore (vector<line> &lines, int where, board b);
+int Score (vector<line> &lines, int where, board b);
 bool isValidLine (line input);
 line inputErrorHandle (board b);
 
