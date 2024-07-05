@@ -215,13 +215,12 @@ line inputErrorHandle(board b)
     input.color = white;
     while (true)
     {
-        try
+        cin >> input.x >> input.y;
+        if(cin.fail())
         {
-           cin >> input.x >> input.y;
-        }
-        catch(const std::error_code& e)
-        {
-            error("Input error");
+            cin.clear();
+            cin.ignore(256, '\n');
+            error("Invalid input");
             continue;
         }
         if ((input.x < 0 || input.y < 0) || (input.x > (b.height + b.height - 1) || input.y > (b.width + b.width - 1)))
