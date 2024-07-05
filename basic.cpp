@@ -16,11 +16,11 @@ void changeTerminalColor(Color color)
 
 void menu()
 {
-  cout << "[1]-Play\n";
-  cout << "[2]-Board Size\n";
-  cout << "[3]-players\n";
-  cout << "[4]Ranking\n";
-  cout << "[5]Exit\n";
+  cout << "Play\n";
+  cout << "Board Size\n";
+  cout << "players\n";
+  cout << "Ranking\n";
+  cout << "Exit\n";
 }
 
 void error (string err_text)

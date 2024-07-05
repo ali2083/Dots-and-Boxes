@@ -8,18 +8,6 @@
 
 using namespace std;
 
-struct board
-{
-    int width = 4;
-    int height = 4;
-};
-
-struct line
-{
-    int x;
-    int y;
-};
-
 enum Color
 {
     blue = 1,
@@ -37,6 +25,19 @@ enum Color
     light_puple = 13,
     light_yellow = 14,
     light_white = 15
+};
+
+struct board
+{
+    int width = 4;
+    int height = 5;
+};
+
+struct line
+{
+    int x = 0;
+    int y = 0;
+    Color color;
 };
 
 class Player
