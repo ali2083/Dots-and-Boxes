@@ -16,11 +16,11 @@ void changeTerminalColor(Color color)
 
 void menu()
 {
-  cout << "Play\n";
-  cout << "Board Size\n";
-  cout << "players\n";
-  cout << "Ranking\n";
-  cout << "Exit\n";
+  cout << "[1]-Play\n";
+  cout << "[2]Board Size\n";
+  cout << "[3]players\n";
+  cout << "[4]Ranking\n";
+  cout << "[5]Exit\n";
 }
 
 void error (string err_text)
@@ -29,12 +29,12 @@ void error (string err_text)
 }
 
 void setBoardSize(int width, int height)
-{
+ {  int MIN_BOARD_SIZE ;
+    int MAX_BOARD_SIZE;
     if (width < MIN_BOARD_SIZE || width > MAX_BOARD_SIZE || height < MIN_BOARD_SIZE || height > MAX_BOARD_SIZE) {
         error("Board size must be between " << MIN_BOARD_SIZE << " and " << MAX_BOARD_SIZE << "!");
         return;
     }
-
     game.width = width;
     game.height = height;
 
@@ -49,7 +49,8 @@ void setBoardSize(int width, int height)
 void getBoardSize()
 {
     int width, height;
-
+    int MIN_BOARD_SIZE ;
+    int MAX_BOARD_SIZE;
     cout << "Enter board width (between " << MIN_BOARD_SIZE << " and " << MAX_BOARD_SIZE << "): ";
     cin >> width;
 
@@ -93,18 +94,18 @@ void playerDefine()
         cin >> game.players[i].name;
 
         cout << "Choose player " << i + 1 << "'s color: " << endl;
-        for (int j = 0; j < NUM_COLORS; j++) {
-            cout << "[" << j + 1 << "] " << getColorName(Color(j)) << " (" << (Color(j)) << ")" << endl;
+        for (int j = 0; j < NUMCOLORS; j++) {
+            cout << "[" << j + 1 << "] " << SetColorSpace(Color(j)) << " (" << (Color(j)) << ")" << endl;
         }
 
         int colorChoice;
         cin >> colorChoice;
 
-        while (colorChoice < 1 || colorChoice > NUM_COLORS) {
-            error("Invalid color choice! Please enter a value between 1 and " << NUM_COLORS << ".");
+        while (colorChoice < 1 || colorChoice > NUMCOLORS) {
+            error("Invalid color choice! Please enter a value between 1 and " << NUMCOLORS << ".");
             cout << "Choose player " << i + 1 << "'s color: " << endl;
-            for (int j = 0; j < NUM_COLORS; j++) {
-                cout << "[" << j + 1 << "] " << getColorName(Color(j)) << " (" << (Color(j)) << ")" << endl;
+            for (int j = 0; j < NUMCOLORS; j++) {
+                cout << "[" << j + 1 << "] " << SetColorSpace(Color(j)) << " (" << (Color(j)) << ")" << endl;
             }
             cin >> colorChoice;
         }
@@ -125,10 +126,10 @@ void scoreBoard()
 
     for (int i = 0; i < game.players.size(); i++) {
         cout << "| ";
-        cout << std::left << setw(8) << game.players[i].name << " | ";
-        cout << std::right << setw(5) << game.scores[i] << " | ";
+        cout << std::left << getw(8) << game.players[i].name << " | ";
+        cout << std::right << getw(5) << game.scores[i] << " | ";
         changeTerminalColor(game.players[i].color);
-        cout << std::left << setw(6) << getColorName(game.players[i].color) << " (" << (game.players[i].color) << ")" << " |";
+        cout << std::left << getw(6) << SetColorSpace(game.players[i].color) << " (" << (game.players[i].color) << ")" << " |";
         changeTerminalColor(white);
         cout << endl;
     }
