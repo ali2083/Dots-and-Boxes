@@ -15,17 +15,7 @@ int main ()
     //code
     char input;
     bool nmenu = true;
-    my_game.players.resize(2);
-
-    my_game.players[0].set_name("ali");
-    my_game.players[0].set_number(1);
-    my_game.players[0].set_color(red);
-
-    my_game.players[1].set_name("mamad");
-    my_game.players[1].set_number(2);
-    my_game.players[1].set_color(blue);
-
-    playGame(my_game.players, my_game.b);
+    
     while (true)
     {   
         if (nmenu)
