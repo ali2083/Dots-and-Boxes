@@ -9,8 +9,8 @@
 using namespace std;
 
 void prtGameBoard (Player &player, vector<line> &lines, vector<int> &boxes, board b);
-void playGame (Player players[], int count, board b);
-int Score (vector<line> &lines, int where, board b);
+void playGame (vector<Player> &players, board b);
+int Score (vector<line> &lines, vector<int> &boxes, int where, board b, int turn);
 bool isValidLine (line input);
 line inputErrorHandle (board b);
 
