@@ -11,6 +11,7 @@ void prtGameBoard(Player &player, vector<line> &lines, vector<int> &boxes, board
     //title
     cout << "Player: ";
     changeTerminalColor(player.get_color());
+    cout << "[" << player.get_number() << "]-";
     cout << player.get_name() << endl;
     changeTerminalColor(white);
     cout << "SCORE: " << player.get_score();
@@ -109,12 +110,12 @@ void prtGameBoard(Player &player, vector<line> &lines, vector<int> &boxes, board
     }
 }
 
-void playGame(Player players[], int count, board b)
+void playGame(vector<Player> &players, board b)
 {
     int turn = 0;
     int boardSize = b.width * (b.height - 1) + b.height * (b.width - 1);
     int boardBoxes = (b.height - 1) * (b.width - 1);
-    vector<line> lines(boardSize); 
+    vector<line> lines(boardSize);
     vector<int> boxes(boardBoxes);
     // Initialize boxes vector
 
@@ -147,37 +148,70 @@ void playGame(Player players[], int count, board b)
         lines.erase(lines.begin() + where + 1);
         system("CLS");
 
-        int box = Score(lines, where, b);
-        // cout << "box:" << box << endl; for debug comment
-        if (box != 0)
+        int box = Score(lines, boxes, where, b, turn);
+        //cout << "box:" << box << endl; //for debug comment
+        if (box == 1)
         {
-            boxes[box - 1] = turn;
             players[turn].set_score(players[turn].get_score() + 1);
+        }
+        else if (box == 2)
+        {
+            players[turn].set_score(players[turn].get_score() + 2);
         }
         else
         {
-            if (turn >= count - 1) turn = 1;
+            if (turn >= players.size() - 1) turn = 0;
             else turn++;
         }
     }
+
+    prtGameBoard(players[turn], lines, boxes, b);
+    cout << endl;
+    getch();
+
+    vector<Player> winners(players.size());
+    for (int i = 0; i < players.size(); i++)
+    {
+        if (winners[0].get_score() < players[i].get_score())
+        {
+            winners.clear();
+            winners.push_back(players[i]);
+        }
+        else if (winners[0].get_score() == players[i].get_score())
+        {
+            winners.push_back(players[i]);
+        }
+    }
+    for (int i = 0; i < winners.size(); i++)
+    {
+        cout << winners[i].get_name() << " Won!" << endl;
+        addtoScoreBoard(winners[i]);
+    }
+    getch();
 }
 
-int Score(vector<line> &lines, int where, board b)
+int Score(vector<line> &lines, vector<int> &boxes, int where, board b, int turn)
 {
+    int x;
+    int temp = 0;
     if (lines[where].x % 2 != 0)
     {
         if (isValidLine(lines[where - 1]) && lines[where - 1].x == lines[where].x)
         {
             if (isValidLine(lines[where - b.width]) && isValidLine(lines[where + b.width - 1]))
             {
-                return (lines[where].x / 2) * (b.width - 1) + (lines[where].y / 2);
+                x = (lines[where].x / 2) * (b.width - 1) + (lines[where].y / 2);
+                boxes[x - 1] = turn + 1;
+                temp++;
             }
         }
         if (isValidLine(lines[where + 1]) && lines[where + 1].x == lines[where].x)
         {
             if (isValidLine(lines[where - b.width + 1]) && isValidLine(lines[where + b.width]))
             {
-                return (lines[where].x / 2) * (b.width - 1) + (lines[where].y / 2) + 1;
+                x = (lines[where].x / 2) * (b.width - 1) + (lines[where].y / 2) + 1;
+                boxes[x - 1] = turn + 1;
+                temp++;
             }
         }
     }
@@ -187,18 +221,22 @@ int Score(vector<line> &lines, int where, board b)
         {
             if (isValidLine(lines[where - b.width]) && isValidLine(lines[where - b.width + 1]))
             {
-                return ((lines[where].x / 2) - 1) * (b.width - 1) + ((lines[where].y + 1) / 2);
+                x = ((lines[where].x / 2) - 1) * (b.width - 1) + ((lines[where].y + 1) / 2);
+                boxes[x - 1] = turn + 1;
+                temp++;
             }
         }
         if (isValidLine(lines[where + (2 * b.width) - 1]) && lines[where + (2 * b.width) - 1].y == lines[where].y)
         {
             if (isValidLine(lines[where + b.width - 1]) && isValidLine(lines[where + b.width]))
             {
-                return (lines[where].x / 2) * (b.width - 1) + ((lines[where].y + 1) / 2);
+                x = (lines[where].x / 2) * (b.width - 1) + ((lines[where].y + 1) / 2);
+                boxes[x - 1] = turn + 1;
+                temp++;
             }
         }
     }
-    return 0;
+    return temp;
 }
 
 bool isValidLine(line input)
@@ -215,13 +253,12 @@ line inputErrorHandle(board b)
     input.color = white;
     while (true)
     {
-        try
+        cin >> input.x >> input.y;
+        if(cin.fail())
         {
-           cin >> input.x >> input.y;
-        }
-        catch(const std::error_code& e)
-        {
-            error("Input error");
+            cin.clear();
+            cin.ignore(256, '\n');
+            error("Invalid input");
             continue;
         }
         if ((input.x < 0 || input.y < 0) || (input.x > (b.height + b.height - 1) || input.y > (b.width + b.width - 1)))
