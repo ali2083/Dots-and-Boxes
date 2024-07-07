@@ -19,3 +19,6 @@ By executing this command, the output file is created for us in the run folder
 cd run
 dots_and_boxes.exe
 performed
+
+note:
+This project is related to the programming course of IUST University, 7/8/2024
