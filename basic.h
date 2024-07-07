@@ -9,7 +9,7 @@
 #include <windows.h>
 
 const int MIN_BOARD_SIZE = 4;
-const int MAX_BOARD_SIZE = 40;
+const int MAX_BOARD_SIZE = 5;
 const int MAX_PLAYERS = 8;
 const int NUM_COLORS = 15;
 
