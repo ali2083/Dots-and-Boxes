@@ -1,10 +1,10 @@
-# H2 Install and run
+## Install and run
 To run the program you need to 
-# H4 prerequisites:
+#### prerequisites:
 Compiler: minGW32 installed from [here](https://sourceforge.net/projects/mingw-w64/) <br>
 Standard: C++11
 
-# H4 Run:
+#### Run:
 1. Open the terminal in the project path
 2. Ensuring the existence of the g++ compiler with the command
 ```terminal
@@ -29,5 +29,5 @@ dots_and_boxes.exe
 ```
 performed
 
-# H2 note:
-[^1]: This project is related to the programming course of IUST University, 7/8/2024
+## note:
+This project is related to the programming course of IUST University, 7/8/2024
