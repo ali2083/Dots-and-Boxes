@@ -17,12 +17,12 @@ compilation terminated.
 ```
 The non-display can be due to not installing correctly or not adding the compiler to the path<br>
 More information at [here](https://code.visualstudio.com/docs/cpp/config-mingw)
-4. Command to compile the program with
+3. Command to compile the program with
 ```terminal
 g++ .\main.cpp .\basic.cpp .\game.cpp -o .\run\dots_and_boxes.exe
 ```
 By executing this command, the output file is created for us in the run folder
-5. You can export the file from file explorer or with commands
+4. You can export the file from file explorer or with commands
 ```terminal
 cd run
 dots_and_boxes.exe
