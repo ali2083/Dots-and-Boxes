@@ -16,12 +16,12 @@ g++.exe: fatal error: no input files
 compilation terminated.
 ```
 The non-display can be due to not installing correctly or not adding the compiler to the path<br>
-More information at [here](https://code.visualstudio.com/docs/cpp/config-mingw)
+More information at [here](https://code.visualstudio.com/docs/cpp/config-mingw)<br>
 3. Command to compile the program with
 ```terminal
 g++ .\main.cpp .\basic.cpp .\game.cpp -o .\run\dots_and_boxes.exe
 ```
-By executing this command, the output file is created for us in the run folder
+By executing this command, the output file is created for us in the run folder<br>
 4. You can export the file from file explorer or with commands
 ```terminal
 cd run
